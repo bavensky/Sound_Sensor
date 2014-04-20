@@ -1,3 +1,16 @@
+/*******************************************************************************
+ * Project  : Woof woof                                                        *
+ * Compiler : Arduino 1.0.2                                                    *
+ * Board    : Arduino duemilanove                                              *
+ * Shield   : Ethernet Shield                                                  *
+ *          : DFRduino I/O Expansion Shield                                    *
+ * Module   : Sound sensor                                                     *
+ *          : RealTimeClock Module                                             *
+ *          :                                                                  *
+ * Author   : Bavensky :3                                                      *
+ * E-Mail   : Aphirak_Sang-ngenchai@hotmail.com                                *
+ * Date     : 20/04/2014 [dd/mm/yyyy]                                          *
+ *******************************************************************************/
 #include <Wire.h>
 #include "RTClib.h"
 #include <SD.h>
