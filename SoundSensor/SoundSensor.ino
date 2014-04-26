@@ -55,7 +55,9 @@ void sdcard()
   if (myFile) 
   {
     Serial.print("Writing to Time.txt...");
-    myFile.print("Time :");
+    myFile.print("Date :");
+    myFile.print(day0);myFile.print("/");myFile.print(month0);myFile.print("/");myFile.print(year0);
+    myFile.print("  Time :");
     myFile.print(hour0);myFile.print(":");myFile.print(minute0);myFile.print(":");myFile.print(second0);
     myFile.print("    ");myFile.println("Woof...woof");
     myFile.close();
