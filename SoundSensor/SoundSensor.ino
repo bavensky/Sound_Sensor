@@ -45,24 +45,33 @@ void time()
   year0 = now.year(); month0 = now.month();   day0 = now.day();
   hour0 = now.hour(); minute0 = now.minute(); second0 = now.second();
   DateTime future (now.unixtime() + 7 * 86400L + 30); 
-  //Serial.print(hour0);Serial.print(":");Serial.print(minute0);Serial.print(":");Serial.println(second0);
+  //Serial.print(hour0);
+  //Serial.print(":");
+  //Serial.print(minute0);
+  //Serial.print(":");
+  //Serial.println(second0);
 }
 
 void sdcard()
 {
   time();
   myFile = SD.open("Time.txt", FILE_WRITE);
+
   if (myFile) 
   {
     Serial.print("Writing to Time.txt...");
     myFile.print("Time :");
-    myFile.print(hour0);myFile.print(":");myFile.print(minute0);myFile.print(":");myFile.print(second0);
-    myFile.print("    ");myFile.println("Woof...woof");
+    myFile.print(hour0);
+    myFile.print(":");
+    myFile.print(minute0);
+    myFile.print(":");
+    myFile.print(second0);
+    myFile.print("    ");
+    myFile.println("Woof...woof");
     myFile.close();
   } else {
     Serial.println("error opening Time.txt");
   }
+
   delay(500);
-}
-
-
+} 
