@@ -17,6 +17,7 @@
   File myFile;
   const int chipSelect = 4;
   RTC_DS1307 rtc;
+  int i=0;
   int year0,month0,day0;
   int hour0,minute0,second0;
   
@@ -72,7 +73,7 @@
     myFile = SD.open("Datalog.csv", FILE_WRITE);
     if (myFile) 
     {
-      Serial.print("Writing to Time.txt...");
+      Serial.print("Writing to Datalog");
           
       myFile.print(day0);
       myFile.print("/");
@@ -88,12 +89,13 @@
       myFile.print(second0);
       myFile.print(",");
       
-      myFile.println("Woof..woof");
+      i++;
+      myFile.println(i);
       myFile.close();
     } 
     else 
     {
-      Serial.println("error opening Time.txt");
+      Serial.println("error opening");
     }
     delay(1000);
   }
