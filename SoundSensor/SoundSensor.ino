@@ -14,90 +14,56 @@
   #include <Wire.h>
   #include "RTClib.h"
   #include <SD.h>
+  
+  #define ANALOG_IN 0
+  #define DEBUG 0
+  #define LIMIT 500
+  #define OUTPUT_FILE "Datalog.csv"
+  
   File myFile;
   const int chipSelect = 4;
   RTC_DS1307 rtc;
-  int i=0;
-  int year0,month0,day0;
-  int hour0,minute0,second0;
+  int i=0, a=0;
+  int year0, month0, day0;
+  int hour0, minute0, second0;
   
+  char line[50];
+   
   void setup()
   {
     Serial.begin(9600);  
-    while (!Serial) {;}
     Wire.begin(); 
     rtc.begin();
     pinMode(4, OUTPUT); 
-    if (!SD.begin(chipSelect)) 
-    { Serial.println("initialization failed!"); return; }
     
-    myFile = SD.open("Datalog.csv", FILE_WRITE);
-    if (myFile) 
-    {
-      myFile.print("Date");
-      myFile.print(",");
-      myFile.print("Time");
-      myFile.print(",");
-      myFile.println("Woof");
-      myFile.close();
-    } 
+    if (!SD.begin(chipSelect)) 
+    { 
+      Serial.println("initialization failed!");
+      return; 
+    }
   }
   
   void loop()
-  {
-    int man = analogRead(0);
-    Serial.println(man);
-    if(man < 500)
+  { 
+    int sound_input = analogRead(ANALOG_IN);
+    if(sound_input < LIMIT)
     {
-      sdcard();
-      Serial.println("Writing");
+      writing(sound_input);
     }
   }
   
-  void time()
+  void writing(int input)
   {
-    DateTime now = rtc.now(); 
-    year0 = now.year(); 
-    month0 = now.month();   
-    day0 = now.day();
-    hour0 = now.hour(); 
-    minute0 = now.minute(); 
-    second0 = now.second();
-    DateTime future (now.unixtime() + 7 * 86400L + 30); 
-  }
-  
-  void sdcard()
-  {
-    time();
-    //myFile = SD.open("Time.txt", FILE_WRITE);
-    myFile = SD.open("Datalog.csv", FILE_WRITE);
+    myFile = SD.open(OUTPUT_FILE, FILE_WRITE);
+    
     if (myFile) 
     {
-      Serial.print("Writing to Datalog");
-          
-      myFile.print(day0);
-      myFile.print("/");
-      myFile.print(month0);
-      myFile.print("/");
-      myFile.print(year0);
-      myFile.print(",");
-      
-      myFile.print(hour0);
-      myFile.print(":");
-      myFile.print(minute0);
-      myFile.print(":");
-      myFile.print(second0);
-      myFile.print(",");
-      
-      i++;
-      myFile.println(i);
+      DateTime now = rtc.now();
+      sprintf(line, "%d/%d/%d,%d:%d:%d,%d", now.day(), now.month(), now.year(), now.hour(), now.minute(), now.second(), input);
+      myFile.println(line);
+      Serial.println(line);
       myFile.close();
-    } 
-    else 
-    {
-      Serial.println("error opening");
     }
-    delay(1000);
   }
-
+  
 
