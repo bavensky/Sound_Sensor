@@ -23,9 +23,8 @@
   File myFile;
   const int chipSelect = 4;
   RTC_DS1307 rtc;
+  
   int i=0, a=0;
-  int year0, month0, day0;
-  int hour0, minute0, second0;
   
   char line[50];
    
@@ -36,10 +35,10 @@
     rtc.begin();
     pinMode(4, OUTPUT); 
     
-    if (!SD.begin(chipSelect)) 
+    while (!SD.begin(chipSelect)) 
     { 
       Serial.println("initialization failed!");
-      return; 
+      delay(1000); 
     }
   }
   
