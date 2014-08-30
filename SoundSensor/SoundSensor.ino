@@ -1,11 +1,9 @@
   /*******************************************************************************
    * Project  : Woof woof                                                        *
    * Compiler : Arduino 1.0.2                                                    *
-   * Board    : Arduino duemilanove                                              *
-   * Shield   : Ethernet Shield                                                  *
-   *          : DFRduino I/O Expansion Shield                                    *
+   * Board    : Arduino UNO                                                      *
+   * Shield   : Adafruit Data Logger Shield                                      *
    * Module   : Sound sensor                                                     *
-   *          : RealTimeClock Module                                             *
    *          :                                                                  *
    * Author   : Bavensky :3                                                      *
    * E-Mail   : Aphirak_Sang-ngenchai@hotmail.com                                *
@@ -18,7 +16,7 @@
   #define ANALOG_IN 0
   #define DEBUG 0
   #define LIMIT 500
-  #define TIME 1000
+  #define TIME 3000
   #define OUTPUT_FILE "Datalog.csv"
   
   File myFile;
@@ -46,45 +44,21 @@
   
   void loop()
   { 
-    int sound_input = analogRead(ANALOG_IN);
+    int sound_input = analogRead(ANALOG_IN);    
     if(sound_input < LIMIT)
     {
-      a = 1;
-    }
-    
-    while(a==1)
-    {
-      /*-- Loop delay 10 seconds --*/
-      for(int b=0; b < TIME; b++)
-      {
-        int input = analogRead(ANALOG_IN);
-        if(input < LIMIT)
-        {      
-          return;
-        }
-        delay(10);
-      }
-      
-      a=2;
-    }
-    
-    while(a==2)
-    {
-      w++;
-      writing(w); 
+      writing(sound_input); 
       delay(TIME);
-      a=0;
     }
-    
   }
   
-  void writing(int input)
+  void writing(int volume)
   {
     myFile = SD.open(OUTPUT_FILE, FILE_WRITE);    
     if (myFile) 
     {
       DateTime now = rtc.now();
-      sprintf(line, "%d/%d/%d,%d:%d:%d,%d", now.day(), now.month(), now.year(), now.hour(), now.minute(), now.second(), input);
+      sprintf(line, "%d/%d/%d,%d:%d:%d,%d", now.day(), now.month(), now.year(), now.hour(), now.minute(), now.second(), volume);
       myFile.println(line);
       Serial.println(line);
       delay(TIME);
