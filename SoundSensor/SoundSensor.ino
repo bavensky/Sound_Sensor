@@ -20,7 +20,7 @@
   #define OUTPUT_FILE "Datalog.csv"
   
   File myFile;
-  const int chipSelect = 4;
+  const int chipSelect = 10; // pin 10 using adafruit
   RTC_DS1307 rtc;
   
   int i=0, a=0, w=0;
@@ -32,7 +32,7 @@
     Serial.begin(9600);  
     Wire.begin(); 
     rtc.begin();
-    pinMode(4, OUTPUT); 
+    pinMode(10, OUTPUT); 
      
     while (!SD.begin(chipSelect)) 
     { 
